@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webinar-front
+  labels:
+    app:  webinar-front
+    version: v1
+    type: frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app:  webinar-front
+      version: v1
+      type: frontend
+  template:
+    metadata:
+      labels:
+        app:  webinar-front
+        version: v1
+        type: frontend
+    spec:
+      containers:
+      - image:  webinar-front:latest
+        env:
+          - name:  NODE_ENV
+            value: production
+        imagePullPolicy: IfNotPresent
+        name:  webinar-front
+        resources:
+          requests:
+            cpu: "150m"
+            memory: "250M"
+          limits:
+            cpu: "200m"
+            memory: "350M"    
+        ports:
+        - containerPort:  5000
+          name:  webinar-front
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name:  webinar-front-service
+spec:
+  selector:
+    app:  webinar-front
+    version: v1
+    type: frontend
+  type:  NodePort
+  ports:
+  - port:  5000
+    targetPort:  5000
+    nodePort: 31000
+      
