@@ -38,7 +38,7 @@ public class CovidController {
   @GetMapping("/worldstatus")
   public ResponseEntity<Statistic> getWorld() {
     logger.info("GET /worldstatus");
-    return ResponseEntity.ok(template.getForObject("/statistics?country=World", Statistic.class));
+    return ResponseEntity.ok(template.getForObject("/statistics?country=All", Statistic.class));
   }
   
   @GetMapping("/statistics")
